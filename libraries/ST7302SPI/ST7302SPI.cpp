@@ -20,7 +20,11 @@ ST7302SPI::ST7302SPI(uint8_t sck_pin, uint8_t miso_pin, uint8_t mosi_pin, uint8_
 
 void ST7302SPI::begin()
 {
-  SPI.begin(_sck_pin, _miso_pin, _mosi_pin, _cs_pin);
+  #ifdef ESP8266
+    SPI.begin();
+  #else
+    SPI.begin(_sck_pin, _miso_pin, _mosi_pin, _cs_pin);
+  #endif
   SPI.beginTransaction(SPISettings(800000, MSBFIRST, SPI_MODE0));
   digitalWrite(_reset_pin, LOW);
   delay(100);
